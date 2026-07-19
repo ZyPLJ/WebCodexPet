@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Codex Pet Viewer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div>
+        <h1>Codex Pet Viewer</h1>
+        <p class="subtitle">桌面宠物网页预览 · 拖拽互动 · 切换动画</p>
+      </div>
+      <div class="header-actions">
+        <button id="btn-desktop" class="btn ghost" type="button" title="切换为桌面悬浮模式">桌面模式</button>
+      </div>
+    </header>
+
+    <aside class="panel">
+      <section class="panel-section">
+        <h2>选择宠物</h2>
+        <div id="pet-list" class="pet-list"></div>
+      </section>
+
+      <section class="panel-section">
+        <h2>动画状态</h2>
+        <div id="state-list" class="state-list"></div>
+      </section>
+
+      <section class="panel-section">
+        <h2>控制</h2>
+        <label class="field">
+          <span>播放速度</span>
+          <input id="speed" type="range" min="40" max="220" value="100" />
+          <output id="speed-label">100 ms/帧</output>
+        </label>
+        <label class="field">
+          <span>显示尺寸</span>
+          <input id="scale" type="range" min="50" max="200" value="100" />
+          <output id="scale-label">100%</output>
+        </label>
+        <div class="btn-row">
+          <button id="btn-pause" class="btn" type="button">暂停</button>
+          <button id="btn-reset" class="btn" type="button">复位位置</button>
+        </div>
+        <p class="hint">
+          提示：拖动舞台上的宠物；点击宠物会循环切换动画。
+          若图片加载失败，请用本地服务器打开（见下方）。
+        </p>
+        <pre class="hint code">python -m http.server 8765</pre>
+      </section>
+
+      <section class="panel-section meta">
+        <h2>当前信息</h2>
+        <dl id="meta"></dl>
+      </section>
+    </aside>
+
+    <main class="stage-wrap">
+      <div id="stage" class="stage">
+        <div id="pet" class="pet" draggable="false" aria-label="桌面宠物">
+          <canvas id="pet-canvas" width="192" height="208"></canvas>
+        </div>
+        <div class="stage-grid"></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

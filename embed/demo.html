@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>宠物 Demo</title>
+  <style>
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #f5f6f8;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    .tip {
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+      pointer-events: none;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="tip">
+    空白页面 + CodexPet<br />
+    右下角是宠物 · 可拖动 · 点击切换动画<br />
+    配置：petJson + spritesheet 两个独立路径
+  </div>
+
+  <script src="./codex-pet.js"></script>
+  <script>
+    CodexPet.mount(document.body, {
+      // —— 两个独立路径 ——
+      petJson: "../rich-paimon/pet.json",
+      spritesheet: "../rich-paimon/spritesheet.webp",
+
+      // 其它参数
+      mode: "fixed",
+      position: "bottom-right",
+      scale: 0.5,              // 显示倍率：1=原始 192×208，0.5=一半，2=两倍
+      speed: 300,
+      state: "idle",
+      draggable: true,
+      clickCycle: true,
+    });
+  </script>
+</body>
+</html>

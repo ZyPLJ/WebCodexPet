@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodexPet 嵌入示例</title>
+  <style>
+    :root {
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: #e8eef8;
+      background: #0f1218;
+    }
+    body { margin: 0; line-height: 1.6; }
+    main { max-width: 880px; margin: 0 auto; padding: 32px 20px 120px; }
+    h1 { margin: 0 0 8px; font-size: 1.6rem; }
+    h2 { margin: 28px 0 10px; font-size: 1.1rem; color: #9db0cc; }
+    p, li { color: #c5d0e0; }
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 0.85rem;
+    }
+    pre {
+      background: #151a24;
+      border: 1px solid #2a3344;
+      border-radius: 12px;
+      padding: 14px 16px;
+      overflow: auto;
+    }
+    .card {
+      background: #171b24;
+      border: 1px solid #2a3344;
+      border-radius: 16px;
+      padding: 16px;
+      margin: 12px 0;
+    }
+    .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    button, select, input {
+      background: #1e2430;
+      color: #e8eef8;
+      border: 1px solid #2a3344;
+      border-radius: 10px;
+      padding: 8px 12px;
+    }
+    button { cursor: pointer; }
+    button:hover { border-color: #7aa2ff; }
+    .stage {
+      position: relative;
+      height: 280px;
+      border-radius: 14px;
+      border: 1px dashed #3a4660;
+      background:
+        radial-gradient(circle at 50% 80%, rgba(122,162,255,.12), transparent 50%),
+        #121722;
+      overflow: hidden;
+    }
+    .note { font-size: 0.9rem; color: #93a0b5; }
+    a { color: #9ec1ff; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>CodexPet 嵌入 SDK</h1>
+    <p class="note">
+      把 <code>embed/codex-pet.js</code> 引入任意网页，配置宠物目录 URL 或雪碧图 URL 即可显示。
+      本页需通过本地服务器打开：
+      <code>python -m http.server 8765</code> →
+      <a href="http://localhost:8765/embed/example.html">http://localhost:8765/embed/example.html</a>
+    </p>
+
+    <h2>方式 A · data 属性自动挂载（最省事）</h2>
+    <div class="card">
+      <pre>&lt;!-- 页面任意位置放一个容器 --&gt;
+&lt;div
+  data-codex-pet
+  data-pet-json="../firefly/pet.json"
+  data-spritesheet="../firefly/spritesheet.webp"
+  data-state="idle"
+  data-scale="1"
+  data-speed="100"
+  data-position="bottom-right"
+  data-mode="fixed"
+  data-draggable="true"
+&gt;&lt;/div&gt;
+
+&lt;script src="./codex-pet.js"&gt;&lt;/script&gt;</pre>
+      <p class="note">下方右下角浮层就是方式 A 挂载的「流萤」（fixed 全页浮层）。</p>
+    </div>
+
+    <!-- 方式 A：全页固定浮层 -->
+    <div
+      data-codex-pet
+      data-pet-json="../firefly/pet.json"
+      data-spritesheet="../firefly/spritesheet.webp"
+      data-state="idle"
+      data-scale="1"
+      data-speed="100"
+      data-position="bottom-right"
+      data-mode="fixed"
+      data-margin="20"
+      data-draggable="true"
+      data-click-cycle="true"
+    ></div>
+
+    <h2>方式 B · JS API 手动挂载（可动态控制）</h2>
+    <div class="card">
+      <div id="box" class="stage"></div>
+      <div class="row">
+        <select id="pet-src">
+          <option value="../firefly/">firefly 流萤</option>
+          <option value="../fufu-sticker/">fufu-sticker 芙芙</option>
+          <option value="../ganyu-pet-v2/">ganyu-pet-v2 甘雨</option>
+          <option value="../rich-paimon/">rich-paimon 财神派蒙</option>
+        </select>
+        <select id="pet-state"></select>
+        <button type="button" id="btn-load">切换宠物</button>
+        <button type="button" id="btn-wave">招手</button>
+        <button type="button" id="btn-work">工作中</button>
+        <button type="button" id="btn-pause">暂停/继续</button>
+        <label>缩放 <input id="pet-scale" type="range" min="50" max="180" value="100" /></label>
+      </div>
+      <pre style="margin-top:12px">const pet = CodexPet.mount('#box', {
+  // 推荐：两个路径分开配置
+  petJson: '../ganyu-pet-v2/pet.json',
+  spritesheet: '../ganyu-pet-v2/spritesheet.webp',
+  // 也支持远程完整 URL：
+  // petJson: 'https://cdn.example.com/pet.json',
+  // spritesheet: 'https://cdn.example.com/sheet.webp',
+  mode: 'absolute',          // 限制在 #box 容器内
+  position: 'center',
+  scale: 1,
+  speed: 100,
+  draggable: true,
+  onReady(inst) { console.log(inst.listStates()); },
+});
+
+pet.setState('waving');
+pet.setScale(1.2);
+pet.load({
+  petJson: '../firefly/pet.json',
+  spritesheet: '../firefly/spritesheet.webp',
+});</pre>
+    </div>
+
+    <h2>方式 C · 只给图片 URL（无 pet.json）</h2>
+    <div class="card">
+      <pre>CodexPet.mount(document.body, {
+  petJson: 'https://your.cdn.com/pets/firefly/pet.json',
+  spritesheet: 'https://your.cdn.com/pets/firefly/spritesheet.webp',
+  // petJson 可不传，此时使用内置 8×9 默认动画表
+  mode: 'fixed',
+  position: 'bottom-left',
+  scale: 0.9,
+});</pre>
+      <p class="note">
+        跨域图片必须在 CDN 配置 <code>Access-Control-Allow-Origin</code>，
+        否则 canvas 无法裁切绘制。
+      </p>
+    </div>
+
+    <h2>配置项一览</h2>
+    <div class="card">
+      <pre>petJson       pet.json 的 URL/路径，或直接传入对象   ← 路径 1
+spritesheet   spritesheet.webp 的 URL/路径           ← 路径 2
+src           （可选兼容）宠物目录，自动拼上面两个文件
+state         初始动画，默认 idle
+scale         显示倍率，默认 1
+speed         毫秒/帧，默认 100
+position      bottom-right | bottom-left | top-right | top-left | center | {x,y}
+mode          fixed（浮在整页）| absolute（容器内）| inline（文档流）
+draggable     是否可拖，默认 true
+clickCycle    单击切换动画，默认 true
+dragAnim      拖动时左右跑，默认 true
+releaseState  松手后回到的状态，默认 idle；设 null 保持
+zIndex        层级，默认 2147483000
+margin        角落边距，默认 16
+visible       是否显示
+paused        是否暂停
+flip          水平镜像
+onReady / onError / onStateChange  回调</pre>
+    </div>
+
+    <h2>在你自己的任务页里最小接入</h2>
+    <div class="card">
+      <pre>&lt;!-- 任务系统 HTML --&gt;
+&lt;div id="task-pet"&gt;&lt;/div&gt;
+&lt;script src="/static/codex-pet.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  // 配置来自后台 / 表单均可
+  window.taskPet = CodexPet.mount('#task-pet', {
+    petJson: '/pets/firefly/pet.json',
+    spritesheet: '/pets/firefly/spritesheet.webp',
+    mode: 'fixed',
+    position: 'bottom-right',
+    scale: 1,
+    state: 'idle',
+  });
+
+  // 任务状态联动示例
+  function onTaskStart()  { taskPet.setState('running'); }
+  function onTaskWait()   { taskPet.setState('waiting'); }
+  function onTaskFail()   { taskPet.setState('failed'); }
+  function onTaskDone()   { taskPet.setState('review'); }
+&lt;/script&gt;</pre>
+    </div>
+  </main>
+
+  <script src="./codex-pet.js"></script>
+  <script>
+    // 方式 B：容器内宠物
+    const boxPet = CodexPet.mount("#box", {
+      petJson: "../ganyu-pet-v2/pet.json",
+      spritesheet: "../ganyu-pet-v2/spritesheet.webp",
+      mode: "absolute",
+      position: "center",
+      scale: 1,
+      speed: 100,
+      onReady(inst) {
+        const sel = document.getElementById("pet-state");
+        sel.innerHTML = inst.listStates()
+          .map((s) => `<option value="${s}">${s}</option>`)
+          .join("");
+        sel.value = inst.getState();
+      },
+      onStateChange(s) {
+        const sel = document.getElementById("pet-state");
+        if (sel) sel.value = s;
+      },
+    });
+
+    document.getElementById("btn-load").onclick = async () => {
+      const base = document.getElementById("pet-src").value.replace(/\/?$/, "/");
+      await boxPet.load({
+        petJson: base + "pet.json",
+        spritesheet: base + "spritesheet.webp",
+        src: "", // 改用双路径后清空目录模式
+      });
+      const sel = document.getElementById("pet-state");
+      sel.innerHTML = boxPet.listStates()
+        .map((s) => `<option value="${s}">${s}</option>`)
+        .join("");
+      sel.value = boxPet.getState();
+    };
+
+    document.getElementById("pet-state").onchange = (e) => {
+      boxPet.setState(e.target.value);
+    };
+    document.getElementById("btn-wave").onclick = () => boxPet.setState("waving");
+    document.getElementById("btn-work").onclick = () => boxPet.setState("running");
+    document.getElementById("btn-pause").onclick = () => {
+      if (boxPet.options.paused) boxPet.resume();
+      else boxPet.pause();
+    };
+    document.getElementById("pet-scale").oninput = (e) => {
+      boxPet.setScale(Number(e.target.value) / 100);
+    };
+  </script>
+</body>
+</html>

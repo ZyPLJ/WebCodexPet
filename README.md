@@ -40,7 +40,7 @@ WebCodexPet/
 | `firefly` | 流萤 | 银白短发、翠绿眼眸的机甲风 chibi |
 | `fufu-sticker` | 芙芙 Sticker | 白蓝短发、贴纸风 |
 | `ganyu-pet-v2` | 甘雨 | 桌面小羊 |
-| `rich-paimon` | 财神派蒙 | 来自 codex-pets.net 的财神派蒙 |
+| `rich-paimon` | 财神派蒙 | 来自 [codex-pet.org](https://codex-pet.org/zh/#gallery) 的财神派蒙 |
 
 ## 精灵图约定
 
@@ -120,10 +120,11 @@ python -m http.server 8765
 
 ## 许可与来源
 
-- 预览台与 Embed SDK 为本仓库代码
-- 部分宠物素材可能来自社区（如 `rich-paimon` 标注来源 `codex-pets.net`）；使用时请自行确认素材版权
+- 预览台与 Embed SDK 采用 [MIT License](LICENSE)
+- 部分宠物素材可能来自社区（如 `rich-paimon` 标注来源 [codex-pet.org](https://codex-pet.org/zh/#gallery)）；使用时请自行确认素材版权
 
 ## 相关
 
+- 博客：[blog.pljzy.top](https://blog.pljzy.top/)
+- 宠物资源站：[codex-pet.org 图鉴](https://codex-pet.org/zh/#gallery)
 - OpenAI Codex 桌面宠物生态
-- 在线宠物站示例：[codex-pets.net](https://codex-pets.net)（第三方）

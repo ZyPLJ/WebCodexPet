@@ -67,10 +67,17 @@ WebCodexPet/
 
 ## 本地预览
 
-不要用 `file://` 直接打开（浏览器会拦截本地图片请求）。请起一个静态服务器：
+不要用 `file://` 直接打开（浏览器会拦截本地图片请求）。任选一种静态服务器：
 
 ```bash
-# 在仓库根目录
+# Node.js（推荐，零依赖）
+npm start
+# 或: node server.js
+
+# 也可用 npx 临时托管
+npm run serve
+
+# Python
 python -m http.server 8765
 ```
 
@@ -79,6 +86,7 @@ python -m http.server 8765
 - 预览台：http://localhost:8765/
 - Embed 示例：http://localhost:8765/embed/example.html
 
+端口可用环境变量覆盖：`PORT=3000 npm start`。
 ## 嵌入任意网页
 
 ```html

@@ -1,0 +1,14 @@
+{
+  "name": "web-codex-pet",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OpenAI Codex desktop pet web preview and zero-dep embed SDK",
+  "scripts": {
+    "start": "node server.js",
+    "serve": "npx --yes serve -l 8765"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

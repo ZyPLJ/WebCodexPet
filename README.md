@@ -2,7 +2,7 @@
 
 OpenAI Codex 桌面宠物（Desktop Pet）的**网页预览**与**嵌入 SDK**资源包。
 
-每个宠物是一套精灵图动画，可在网页中拖拽互动、切换状态，也可一键嵌入任意业务页面。
+每个宠物是一套雪碧图动画，可在网页中拖拽互动、切换状态，也可一键嵌入任意业务页面。
 
 ## 预览截图
 
@@ -52,7 +52,7 @@ WebCodexPet/
 ```
 <pet-id>/
   pet.json          # 元数据（及可选动画 atlas）
-  spritesheet.webp  # 1536×1872 精灵图
+  spritesheet.webp  # 1536×1872 雪碧图
 ```
 
 ## 内置宠物
@@ -64,7 +64,7 @@ WebCodexPet/
 | `ganyu-pet-v2` | 甘雨 | 桌面小羊 |
 | `rich-paimon` | 财神派蒙 | 来自 [codex-pet.org](https://codex-pet.org/zh/#gallery) 的财神派蒙 |
 
-## 精灵图约定
+## 雪碧图约定
 
 所有宠物共用同一网格：
 
@@ -155,7 +155,7 @@ PORT=3000 npm start
 
 完整配置与实例 API 见 [embed/README.md](embed/README.md)。
 
-跨域精灵图需要目标服务器开启 CORS；推荐同域托管资源。
+跨域雪碧图需要目标服务器开启 CORS；推荐同域托管资源。
 
 ## 新增宠物
 
